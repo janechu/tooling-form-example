@@ -1,11 +1,11 @@
 import React from "react";
 import { MessageSystem } from "@microsoft/fast-tooling";
-import { ModularForm } from "@microsoft/fast-tooling-react";
+import { Form } from "@microsoft/fast-tooling-react";
 
 let fastMessageSystem: MessageSystem;
 
 interface ExampleState {
-    data: string;
+    data: any;
 }
 
 class Example extends React.Component<{}, ExampleState> {
@@ -19,7 +19,7 @@ class Example extends React.Component<{}, ExampleState> {
                     {
                         root: {
                             schemaId: "text",
-                            data: "Hello world",
+                            data: {},
                         },
                     },
                     "root",
@@ -28,7 +28,14 @@ class Example extends React.Component<{}, ExampleState> {
                     text: {
                         title: "Text",
                         id: "text",
-                        type: "string",
+                        $id: "text",
+                        type: "object",
+                        properties: {
+                            myString: {
+                                title: "My String",
+                                type: "string"
+                            }
+                        }
                     },
                 },
             });
@@ -38,15 +45,15 @@ class Example extends React.Component<{}, ExampleState> {
         }
 
         this.state = {
-            data: "Hello world",
+            data: {},
         };
     }
 
     public render() {
         return (
             <div>
-                <ModularForm messageSystem={fastMessageSystem} />
-                <pre>{this.state.data}</pre>
+                <Form messageSystem={fastMessageSystem} />
+                <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
             </div>
         );
     }
@@ -54,7 +61,6 @@ class Example extends React.Component<{}, ExampleState> {
     private handleMessageSystem = (e): void => {
         if (
             e.data &&
-            typeof e.data.data === "string" &&
             e.data.data !== this.state.data
         ) {
             this.setState({

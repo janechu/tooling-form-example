@@ -10,7 +10,7 @@ module.exports = {
         historyApiFallback: true,
         open: true,
         overlay: true,
-        port: 7002,
+        port: 7001,
     },
     devtool: process.env.NODE_ENV === "production" ? "none" : "inline-source-map",
     entry: {
